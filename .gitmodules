@@ -1,0 +1,6 @@
+[submodule "vendor/micropython_ahtx0"]
+	path = vendor/micropython_ahtx0
+	url = https://github.com/targetblank/micropython_ahtx0
+[submodule "vendor/upylib"]
+	path = vendor/upylib
+	url = https://github.com/PinkInk/upylib
