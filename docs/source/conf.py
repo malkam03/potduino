@@ -12,8 +12,13 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src/firmware'))
 
+from recommonmark.parser import CommonMarkParser
+from recommonmark.transform import AutoStructify
+
+sys.path.insert(0, os.path.abspath('../../src/firmware'))
+
+source_suffix = ['.rst', '.md']
 
 # -- Project information -----------------------------------------------------
 
@@ -22,8 +27,7 @@ copyright = '2021, Malcolm Davis Steele'
 author = 'Malcolm Davis Steele'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
-
+release = '0.1.0'
 
 # -- General configuration ---------------------------------------------------
 
@@ -31,8 +35,8 @@ release = '0.0.1'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.napoleon',
-    'myst_parser'
+    'sphinx.ext.autodoc', 'sphinx.ext.napoleon', "sphinx.ext.githubpages",
+    'recommonmark'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -42,7 +46,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
 
 # -- Options for HTML output -------------------------------------------------
 
@@ -54,13 +57,28 @@ html_theme = 'agogo'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
-
 
 # Extensions options
 napoleon_numpy_docstring = False
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.txt': 'markdown',
-    '.md': 'markdown',
+autodoc_mock_imports = [
+    "time", "ahtx0", "machine", "bh1750", "ds18x20", "machine", "onewire",
+    "ntptime"
+]
+
+source_parsers = {
+    '.md': CommonMarkParser,
 }
+
+
+def setup(app):
+    app.add_config_value(
+        'recommonmark_config',
+        {
+            # 'url_resolver': lambda url: github_doc_root + url,
+            'auto_toc_tree_section': 'Contents',
+            'enable_math': False,
+            'enable_inline_math': False,
+            'enable_eval_rst': True,
+        },
+        True)
+    app.add_transform(AutoStructify)

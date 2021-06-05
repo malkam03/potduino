@@ -14,7 +14,7 @@ You can interactively run this container from a terminal with the following comm
 
 ```shell
 $ export UART_DEV=/dev/ttyUSB0
-$ docker run -i --rm -v $(pwd):/tmp/potduino -e UART_DEV --device=$UART_DEV potduino-dev
+$ docker run -ti --rm -v $(pwd):/tmp/potduino -e UART_DEV --device=$UART_DEV potduino-dev
 ```
 
 **Note**: Remember to update the `UART_DEV` variable with the correct uart device. You can disconnect the device, list the files and then connect the device and list the devices again. This way the latest connected uart dev should be the one you'll want to work with.
@@ -42,7 +42,13 @@ This dockerfile populate the following aliases to make it easier to remember the
 In order to build the image just type on a terminal:
 
 ```shell
-$ docker build -t potduino-dev -f docker/Dockerfile .
+$ docker build --build-arg USER=$USER --build-arg USERID=$UID --build -t potduino-dev -f docker/Dockerfile .
+```
+
+And, if the id of the dialout group is different than 20, you can also pass `DIALOUTGID`:
+
+```shell
+$ docker build --build-arg USER=$USER --build-arg USERID=$UID --build-arg DIALOUTGID=<gid> --build -t potduino-dev -f docker/Dockerfile .
 ```
 
 ## Contributing
