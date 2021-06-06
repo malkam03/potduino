@@ -1,0 +1,5 @@
+# Requirements for CI
+yapf==0.31.0
+isort==5.8.0
+flake8==3.9.2
+Sphinx==4.0.2

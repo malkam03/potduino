@@ -2,13 +2,15 @@ name: ci
 
 on:
   push:
-    branches:
-      - "main"
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Build Test Image
@@ -18,3 +20,27 @@ jobs:
           push: false
           tags: potduino-dev:latest
           file: docker/Dockerfile
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint Python Code
+        uses: marian-code/pyaction@v2
+        with:
+          use-black: false
+          use-pydocstyle: false
+          extra-pycodestyle-options: "--max-line-length=88"
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Requirements
+        run: |
+          pip install -r ci-requirements.txt
+      - name: Build Documentation
+        run: |
+          cd docs
+          sphinx-apidoc -f -o source/ ../src
+          make html
