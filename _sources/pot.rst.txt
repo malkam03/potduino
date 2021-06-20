@@ -1,0 +1,7 @@
+pot module
+==========
+
+.. automodule:: pot
+   :members:
+   :undoc-members:
+   :show-inheritance:

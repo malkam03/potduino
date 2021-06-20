@@ -1,0 +1,9 @@
+firmware
+========
+
+.. toctree::
+   :maxdepth: 4
+
+   main
+   pot
+   potduino

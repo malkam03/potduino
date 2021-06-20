@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Potduino &#8212; Potduino 0.1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/agogo.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="firmware" href="modules.html" />
+    <link rel="prev" title="Welcome to Potduino’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="index.html">Potduino 0.1.0 documentation</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="index.html" title="Welcome to Potduino’s documentation!"
+             accesskey="P">previous</a> |
+          <a href="modules.html" title="firmware"
+             accesskey="N">next</a> |
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="potduino">
+<h1>Potduino<a class="headerlink" href="#potduino" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">Smart</span></code> flowerpot that connects to Google home API using a <a class="reference external" href="https://nodemcu.readthedocs.io/en/release/"><code class="docutils literal notranslate"><span class="pre">NodeMCU</span> <span class="pre">ESP8266</span></code></a> as the brains. The project aims to use multiple sensors to monitor the environment to watter the plants located in 3 pots and log that sensor data locally and on a server. Or can just watter the plants on an schedule depending on the configuration. The code used on this project can be found at the <a class="reference external" href="src">src</a> directory. So as the schematics for the circuit at the <a class="reference external" href="hwd">hwd</a> directory. Lastly, a dockerfile with the environment used to develop this project can be found at <a class="reference external" href="docker">docker</a>.</p>
+<p>The sensors used include:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.espruino.com/AHT10">AHT10</a>: environment temperature.</p></li>
+<li><p><a class="reference external" href="https://www.espruino.com/BH1750">BH1750</a>: environment luminosity level.</p></li>
+<li><p><a class="reference external" href="https://www.adafruit.com/product/381">DS18B20 waterproof</a>: Soil temperature.</p></li>
+</ul>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<section id="prerequisities">
+<h3>Prerequisities<a class="headerlink" href="#prerequisities" title="Permalink to this headline">¶</a></h3>
+<section id="docker">
+<h4>Docker<a class="headerlink" href="#docker" title="Permalink to this headline">¶</a></h4>
+<p>A dockerfile containing the development environment can be found at <a class="reference external" href="docker/Dockerfile">docker/Dockerfile</a>. In order to build/run this image you’ll need to install docker. See installation instructions at<a class="reference external" href="https://docs.docker.com/linux/started/">Getting started with docker in Linux</a>. You cand find specific instructions on how to build/run this docker image at the <a class="reference external" href="docker/README">docker/README.md</a> file.</p>
+<p><strong>Note:</strong> At this time Windows doesn’t support mounting UART (COM) ports into a docker container. So if you want to use the image you should run it on a GNU Linux system.</p>
+</section>
+<section id="circuit">
+<h4>Circuit<a class="headerlink" href="#circuit" title="Permalink to this headline">¶</a></h4>
+<p>First you need to build the <a class="reference external" href="hwd">circuit</a>, or you can modify it to fit your requirements.
+<img alt="Circuit Schematic" src="images/circuit-schematic.png" /></p>
+</section>
+</section>
+</section>
+<section id="deployment">
+<h2>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h2>
+<p>In order to use the code provided, you’ll need to flash latest micropython firmware on your ESP8266. This can be done in a terminal inside of the dev container image (see <a class="reference external" href="docker/README">docker/README.md</a>) like this:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ curl -O https://micropython.org/resources/firmware/esp8266-1m-20210418-v1.15.bin
+$ mcflashclean
+$ mcflash esp8266-1m-20210418-v1.15.bin
+</pre></div>
+</div>
+<p>More information on micropython can be found at <a class="reference external" href="https://docs.micropython.org/en/v1.15/esp8266/tutorial/intro.html">micropython’s page</a>.</p>
+<p>Then, install the required libraries on the board:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ mcput vendor/micropython_ahtx0/ahtx0.py /lib/
+$ mcput vendor/upylib/bh1750/__init__.py /lib/bh1750.py
+$ mcput vendor/pycopy-lib/logging/logging/__init__.py /lib/logging.py
+</pre></div>
+</div>
+<p>Then, upload the code after doing any modification your hardware requires:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ mcput src/firmware/potduino.py
+$ mcput src/firmware/pot.py
+$ mcput src/firmware/main.py
+</pre></div>
+</div>
+</section>
+<section id="author">
+<h2>Author<a class="headerlink" href="#author" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Malcolm Davis</strong> - <code class="docutils literal notranslate"><span class="pre">Initial-work</span></code> - <a class="reference external" href="https://github.com/malkam03/potduino">potduino</a></p></li>
+</ul>
+<p>See also the list of <a class="reference external" href="https://github.com/malkam03/potduino/contributors.md">contributors</a> who participated in this project.</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This project is licensed under the MIT License - see the <a class="reference external" href="LICENSE">LICENSE</a> file for details.</p>
+</section>
+<section id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Potduino</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getting-started">Getting Started</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#deployment">Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#author">Author</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">firmware</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="index.html" title="Welcome to Potduino’s documentation!"
+              >previous</a> |
+            <a href="modules.html" title="firmware"
+              >next</a> |
+            <a href="py-modindex.html" title="Python Module Index"
+              >modules</a> |
+            <a href="genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="_sources/readme.md.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Malcolm Davis Steele.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

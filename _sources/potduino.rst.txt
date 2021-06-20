@@ -1,0 +1,7 @@
+potduino module
+===============
+
+.. automodule:: potduino
+   :members:
+   :undoc-members:
+   :show-inheritance:

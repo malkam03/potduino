@@ -1,0 +1,9 @@
+[submodule "vendor/micropython_ahtx0"]
+	path = vendor/micropython_ahtx0
+	url = https://github.com/targetblank/micropython_ahtx0
+[submodule "vendor/upylib"]
+	path = vendor/upylib
+	url = https://github.com/PinkInk/upylib
+[submodule "vendor/pycopy-lib"]
+	path = vendor/pycopy-lib
+	url = https://github.com/pfalcon/pycopy-lib.git
