@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Potduino Dev Docker &mdash; Potduino 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Potduino
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../README.html">Readme</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../LICENSE.html">License</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Potduino</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Potduino Dev Docker</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/docker/README.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="potduino-dev-docker">
+<h1>Potduino Dev Docker<a class="headerlink" href="#potduino-dev-docker" title="Permalink to this headline">¶</a></h1>
+<p>Contains the dependencies required to flash/develop for potduino project.</p>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<section id="prerequisities">
+<h3>Prerequisities<a class="headerlink" href="#prerequisities" title="Permalink to this headline">¶</a></h3>
+<p>In order to build/run this dockerfile you’ll need to install docker. See installation instructions at <a class="reference external" href="https://docs.docker.com/linux/started/">Getting started with docker in Linux</a>.</p>
+</section>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<p>You can interactively run this container from a terminal with the following commands:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">export</span> <span class="nv">UART_DEV</span><span class="o">=</span>/dev/ttyUSB0
+$ docker run -ti --rm -v <span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/tmp/potduino -e UART_DEV --device<span class="o">=</span><span class="nv">$UART_DEV</span> potduino-dev
+</pre></div>
+</div>
+<p><strong>Note</strong>: Remember to update the <code class="docutils literal notranslate"><span class="pre">UART_DEV</span></code> variable with the correct uart device. You can disconnect the device, list the files and then connect the device and list the devices again. This way the latest connected uart dev should be the one you’ll want to work with.</p>
+<section id="aliases">
+<h4>Aliases<a class="headerlink" href="#aliases" title="Permalink to this headline">¶</a></h4>
+<p>This dockerfile populate the following aliases to make it easier to remember the commands to interact with the device.</p>
+<ul class="simple">
+<li><p><strong>mcls</strong>: ampy –port $UART_DEV –baud 115200 ls</p></li>
+<li><p><strong>mcrm</strong>: ampy –port $UART_DEV –baud 115200 rm</p></li>
+<li><p><strong>mcget</strong>: ampy –port $UART_DEV –baud 115200 get</p></li>
+<li><p><strong>mcput</strong>: ampy –port $UART_DEV –baud 115200 put</p></li>
+<li><p><strong>mcget</strong>: ampy –port $UART_DEV –baud 115200 get</p></li>
+<li><p><strong>mcrun</strong>: ampy –port $UART_DEV –baud 115200 run</p></li>
+<li><p><strong>mcflashclean</strong>: esptool.py –port $UART_DEV erase_flash</p></li>
+<li><p><strong>mcflash</strong>: esptool.py –port $UART_DEV –baud 460800 write_flash –flash_size=detect 0</p></li>
+<li><p><strong>mccon</strong>: picocom $UART_DEV -b115200</p></li>
+</ul>
+</section>
+<section id="volumes">
+<h4>Volumes<a class="headerlink" href="#volumes" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/tmp/potduino</span></code> - The contents of this repo are expected to be mounted in this path</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="building">
+<h2>Building<a class="headerlink" href="#building" title="Permalink to this headline">¶</a></h2>
+<p>In order to build the image just type on a terminal:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ docker build --build-arg <span class="nv">USER</span><span class="o">=</span><span class="nv">$USER</span> --build-arg <span class="nv">USERID</span><span class="o">=</span><span class="nv">$UID</span> --build -t potduino-dev -f docker/Dockerfile .
+</pre></div>
+</div>
+<p>And, if the id of the dialout group is different than 20, you can also pass <code class="docutils literal notranslate"><span class="pre">DIALOUTGID</span></code>:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>$ docker build --build-arg <span class="nv">USER</span><span class="o">=</span><span class="nv">$USER</span> --build-arg <span class="nv">USERID</span><span class="o">=</span><span class="nv">$UID</span> --build-arg <span class="nv">DIALOUTGID</span><span class="o">=</span>&lt;gid&gt; --build -t potduino-dev -f docker/Dockerfile .
+</pre></div>
+</div>
+</section>
+<section id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>Please read <a class="reference internal" href="../CONTRIBUTING.html"><span class="doc std std-doc">CONTRIBUTING.md</span></a> for details on our code of conduct, and the process for submitting pull requests to us.</p>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This project is licensed under the MIT License - see the <a class="reference internal" href="../LICENSE.html"><span class="doc std std-doc">LICENSE</span></a> file for details.</p>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Malcolm Davis Steele.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
