@@ -5,8 +5,9 @@ if [ -d "docs" ]; then
 fi
 
 mkdir -p source/tmp
+make clean
+find source \( -name '*.svg' -o -name '*.png' -o -name '*.md' \) -exec rm {} \;
+
 sphinx-apidoc -f -o source/ ../src/firmware
 find ../ -path '../vendor' -prune  -o -path "../docs" -prune -o \( -name '*.svg' -o -name '*.png' -o -name '*.md' \)   -exec cp --parents \{\} source/tmp \;
 make html
-
-find source \( -name '*.svg' -o -name '*.png' -o -name '*.md' \) -exec rm {} \;
