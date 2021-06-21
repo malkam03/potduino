@@ -3,3 +3,6 @@ yapf==0.31.0
 isort==5.8.0
 flake8==3.9.2
 Sphinx==4.0.2
+myst-parser==0.15.1
+recommonmark==0.7.1
+sphinx-rtd-theme==0.5.2

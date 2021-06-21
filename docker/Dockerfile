@@ -5,19 +5,25 @@ RUN apt-get update && \
     apt-get install -y picocom && \
     rm -rf /var/lib/ap/lists/*
 
+ARG USER=dev
+ARG USERID=1000
+ARG DIALOUTGID
+RUN useradd -ms /bin/bash ${USER} -u ${USERID} && \
+    if [ ! -z ${DIALOUTGID} ]; then \
+        groupmod -n dialout-old dialout && \
+        groupadd -g ${DIALOUTGID} dialout; \
+    fi && \
+    usermod -aG dialout ${USER}
+
+USER ${USER}
+
 # Python tools
-RUN pip install \
+ENV PATH="$PATH:/home/${USER}/.local/bin/"
+RUN pip install -U \
     esptool \
     adafruit-ampy \
     sphinx \
     myst-parser
-
-ARG USER=dev
-ARG USERID=1000
-RUN useradd -ms /bin/bash ${USER} -u ${USERID} && \
-    usermod -aG dialout ${USER}
-
-USER ${USER}
 
 # Dev Aliases
 RUN echo "alias mcls='ampy --port \$UART_DEV --baud 115200 ls'\n \

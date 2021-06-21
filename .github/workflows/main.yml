@@ -25,22 +25,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Lint Python Code
-        uses: marian-code/pyaction@v2
+      - uses: marian-code/python-lint-annotate@v2
         with:
+          python-root-list: "src"
           use-black: false
           use-pydocstyle: false
-          extra-pycodestyle-options: "--max-line-length=88"
+          use-pylint: false
+          use-mypy: false
 
   docs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Install Requirements
         run: |
           pip install -r ci-requirements.txt
       - name: Build Documentation
         run: |
-          cd docs
-          sphinx-apidoc -f -o source/ ../src
-          make html
+          bash ./docs/build-doc.sh
+      - uses: actions/upload-artifact@v2
+        with:
+          name: DocumentationHTML
+          path: docs/_build/html/
+      - name: Sphinx to GitHub Pages
+        uses: sphinx-notes/pages@1.0
+        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
+        with:
+          documentation_path: "docs/source"
+      - name: GitHub Push
+        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages

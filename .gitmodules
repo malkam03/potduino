@@ -4,3 +4,6 @@
 [submodule "vendor/upylib"]
 	path = vendor/upylib
 	url = https://github.com/PinkInk/upylib
+[submodule "vendor/pycopy-lib"]
+	path = vendor/pycopy-lib
+	url = https://github.com/pfalcon/pycopy-lib.git
