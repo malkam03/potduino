@@ -51,6 +51,8 @@ $ mcput src/firmware/pot.py
 $ mcput src/firmware/main.py
 ```
 
+The modules are documented on the [read-the-docs page](https://www.malcolmdavis.xyz/potduino/).
+
 ## Author
 
 - **Malcolm Davis** - _Initial-work_ - [potduino](https://github.com/malkam03/potduino)
