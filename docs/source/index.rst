@@ -10,7 +10,7 @@ Welcome to Potduino's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   readme
+   Readme <README.md>
    modules
 
 

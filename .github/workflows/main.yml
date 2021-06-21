@@ -44,9 +44,7 @@ jobs:
           pip install -r ci-requirements.txt
       - name: Build Documentation
         run: |
-          cd docs
-          sphinx-apidoc -f -o source/ ../src/firmware
-          make html
+          bash ./docs/build-doc.sh
       - uses: actions/upload-artifact@v2
         with:
           name: DocumentationHTML

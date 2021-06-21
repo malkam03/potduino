@@ -36,7 +36,7 @@ release = '0.1.0'
 # ones.
 extensions = [
     'sphinx.ext.autodoc', 'sphinx.ext.napoleon', "sphinx.ext.githubpages",
-    'recommonmark'
+    'myst_parser'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -72,13 +72,11 @@ source_parsers = {
 
 def setup(app):
     app.add_config_value(
-        'recommonmark_config',
-        {
-            # 'url_resolver': lambda url: github_doc_root + url,
+        'recommonmark_config', {
+            'url_resolver': lambda url: github_doc_root + url,
             'auto_toc_tree_section': 'Contents',
             'enable_math': False,
             'enable_inline_math': False,
             'enable_eval_rst': True,
-        },
-        True)
+        }, True)
     app.add_transform(AutoStructify)
