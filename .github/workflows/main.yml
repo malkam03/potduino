@@ -50,7 +50,7 @@ jobs:
           name: DocumentationHTML
           path: docs/_build/html/
       - name: Sphinx to GitHub Pages
-        uses: sphinx-notes/pages@1.0
+        uses: sphinx-notes/pages@2.0
         if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
         with:
           documentation_path: "docs/source"
