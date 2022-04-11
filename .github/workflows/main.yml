@@ -45,7 +45,7 @@ jobs:
       - name: Build Documentation
         run: |
           bash ./docs/build-doc.sh
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: DocumentationHTML
           path: docs/_build/html/
